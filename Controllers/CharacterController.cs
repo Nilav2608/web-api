@@ -26,23 +26,24 @@ namespace web_api.Controllers
 
 
         [HttpGet("GetAll")] //combining both attribute and route name as http://localhost:5080/api/Character/GetAll
-        public ActionResult<List<Character>> Get(){
-            return Ok(_characterService.GetAllCharacters());
+        //here Task<> represents asynchronous calls
+        public async Task<ActionResult<ServiceResponse<List<Character>>>> Get(){
+            return Ok(await _characterService.GetAllCharacters());
         }
 
+     
 
- 
         [HttpGet("{id}")]//So here we haven't specified any routes so that it returns
-        public ActionResult<Character> GetSingle(int id){
-            return Ok(_characterService.GetCharacterById(id));
+        public async Task<ActionResult<ServiceResponse<Character>>> GetSingle(int id){
+            return Ok(await _characterService.GetCharacterById(id));
         }
 
 
         //post
         [HttpPost("post")]
-        public ActionResult<List<Character>> PostCharater(Character newCharacter){
+        public async Task<ActionResult<ServiceResponse<List<Character>>>> PostCharater(Character newCharacter){
            
-           return Ok(_characterService.AddCharacter(newCharacter));
+           return Ok(await _characterService.AddCharacter(newCharacter));
         }
     }
 }

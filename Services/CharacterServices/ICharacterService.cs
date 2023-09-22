@@ -4,9 +4,9 @@ namespace web_api.Services.CharacterServices
 {
     public interface ICharacterService
     {
-         
-         Character GetCharacterById(int id);
-         List<Character> GetAllCharacters();
-         List<Character> AddCharacter(Character character);
+         Task<ServiceResponse<List<Character>>> GetAllCharacters();
+         Task<ServiceResponse<Character>> GetCharacterById(int id);
+
+         Task<ServiceResponse<List<Character>>> AddCharacter(Character character);
     }
 }
