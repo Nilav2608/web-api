@@ -1,6 +1,7 @@
 
 
 using Microsoft.AspNetCore.Mvc;
+using web_api.Data_Transfer_Objects_DTO;
 using web_api.models;
 using web_api.Services.CharacterServices;
 
@@ -27,21 +28,21 @@ namespace web_api.Controllers
 
         [HttpGet("GetAll")] //combining both attribute and route name as http://localhost:5080/api/Character/GetAll
         //here Task<> represents asynchronous calls
-        public async Task<ActionResult<ServiceResponse<List<Character>>>> Get(){
+        public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> Get(){
             return Ok(await _characterService.GetAllCharacters());
         }
 
      
 
         [HttpGet("{id}")]//So here we haven't specified any routes so that it returns
-        public async Task<ActionResult<ServiceResponse<Character>>> GetSingle(int id){
+        public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> GetSingle(int id){
             return Ok(await _characterService.GetCharacterById(id));
         }
 
 
         //post
         [HttpPost("post")]
-        public async Task<ActionResult<ServiceResponse<List<Character>>>> PostCharater(Character newCharacter){
+        public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> PostCharater(AddCharacterDto newCharacter){
            
            return Ok(await _characterService.AddCharacter(newCharacter));
         }

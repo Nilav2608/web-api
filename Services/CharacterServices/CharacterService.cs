@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using web_api.Data_Transfer_Objects_DTO;
 using web_api.models;  // Assuming Character is defined in this namespace
 
 namespace web_api.Services.CharacterServices
@@ -15,24 +16,24 @@ namespace web_api.Services.CharacterServices
             new Character { Id = 2, Name = "Bam" }
         };
 
-        public async Task<ServiceResponse<List<Character>>> AddCharacter(Character character)
+        public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
         { 
-            var serviceResponse = new ServiceResponse<List<Character>>();
-            charactersList.Add(character);
+            var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
+            charactersList.Add(newCharacter);
             serviceResponse.data = charactersList;
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<Character>>> GetAllCharacters()
+        public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
         {   
-             var serviceResponse = new ServiceResponse<List<Character>>();
+             var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
              serviceResponse.data = charactersList;
              return serviceResponse;
         }
 
-        public async Task<ServiceResponse<Character>> GetCharacterById(int id)
+        public async Task<ServiceResponse<GetCharacterDto>> GetCharacterById(int id)
         {   
-            var serviceResponse = new ServiceResponse<Character>();
+            var serviceResponse = new ServiceResponse<GetCharacterDto>();
             var character = charactersList.FirstOrDefault(c => c.Id == id);
             serviceResponse.data = character;
             return serviceResponse;

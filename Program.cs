@@ -1,4 +1,6 @@
 using web_api.Services.CharacterServices;
+using web_api.models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
