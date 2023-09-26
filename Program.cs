@@ -1,5 +1,4 @@
 using web_api.Services.CharacterServices;
-using web_api.models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +8,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 //* to call the constructor and services 
 builder.Services.AddScoped<ICharacterService,CharacterServices>();
 

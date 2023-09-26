@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using web_api.Data_Transfer_Objects_DTO;
 using web_api.models;  // Assuming Character is defined in this namespace
 
@@ -9,6 +10,11 @@ namespace web_api.Services.CharacterServices
 {
     public class CharacterServices : ICharacterService
     {
+        private readonly IMapper _mapper;
+        public CharacterServices(IMapper mapper)
+        {
+            _mapper = mapper; 
+        }
         private static List<Character> charactersList = new List<Character>
         {
             new Character(),
@@ -19,15 +25,17 @@ namespace web_api.Services.CharacterServices
         public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
         { 
             var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
-            charactersList.Add(newCharacter);
-            serviceResponse.data = charactersList;
+            var character = _mapper.Map<Character>(newCharacter);
+            character.Id = charactersList.Max(c => c.Id) + 1;
+            charactersList.Add(character);
+            serviceResponse.data = charactersList.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
             return serviceResponse;
         }
 
         public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
         {   
              var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
-             serviceResponse.data = charactersList;
+             serviceResponse.data = charactersList.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
              return serviceResponse;
         }
 
@@ -35,7 +43,7 @@ namespace web_api.Services.CharacterServices
         {   
             var serviceResponse = new ServiceResponse<GetCharacterDto>();
             var character = charactersList.FirstOrDefault(c => c.Id == id);
-            serviceResponse.data = character;
+            serviceResponse.data = _mapper.Map<GetCharacterDto>(character);
             return serviceResponse;
             
         }
