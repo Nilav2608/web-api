@@ -46,5 +46,17 @@ namespace web_api.Controllers
            
            return Ok(await _characterService.AddCharacter(newCharacter));
         }
+
+        [HttpPut("put")]
+        public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> UpdateCharacter(UpdateCharacterDto updateCharacter){
+           
+            var response = await _characterService.UpdateCharacter(updateCharacter);
+            if (response.data is null)
+            {
+                return NotFound(response);
+            }
+
+             return Ok(response);
+        }
     }
 }

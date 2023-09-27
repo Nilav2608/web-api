@@ -9,5 +9,6 @@ namespace web_api.Services.CharacterServices
          Task<ServiceResponse<GetCharacterDto>> GetCharacterById(int id);
 
          Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto character);
+         Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(UpdateCharacterDto character);
     }
 }

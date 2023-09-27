@@ -47,5 +47,41 @@ namespace web_api.Services.CharacterServices
             return serviceResponse;
             
         }
+
+        public async Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(UpdateCharacterDto updatedCharacter)
+        {
+            var serviceResponse = new ServiceResponse<GetCharacterDto>();
+
+          try
+          {  
+           
+              var character = charactersList.FirstOrDefault(c => c.Id == updatedCharacter.Id);
+
+              if (character is null)
+                 throw new Exception("$character with Id "+updatedCharacter.Id+ " is not found");
+              
+
+            character.Name = updatedCharacter.Name;
+            character.HitPoints = updatedCharacter.HitPoints;
+            character.Strength = updatedCharacter.Strength;
+            character.Defence = updatedCharacter.Defence;
+            character.Intellignece = updatedCharacter.Intellignece;
+            character.Class = updatedCharacter.Class;
+
+            serviceResponse.data = _mapper.Map<GetCharacterDto>(character);
+
+            
+          }
+          catch (Exception ex)
+          {
+            
+            serviceResponse.success = false;
+            serviceResponse.message = ex.Message;
+          }
+          return serviceResponse;
+
+        }
+        
     }
 }
+

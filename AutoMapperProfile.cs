@@ -11,6 +11,7 @@ namespace web_api
                      //sourceType  //Destination type 
             CreateMap<Character, GetCharacterDto>();
             CreateMap<AddCharacterDto, Character>();
+            CreateMap<UpdateCharacterDto, Character>();
         }
     }
 }
