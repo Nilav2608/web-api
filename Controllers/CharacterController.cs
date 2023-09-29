@@ -58,5 +58,20 @@ namespace web_api.Controllers
 
              return Ok(response);
         }
+
+          [HttpDelete("{id}")]//So here we haven't specified any routes so that it returns
+        public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> DeleteCharacter(int id){
+            
+            var response = await _characterService.DeleteCharater(id);
+
+            if(response.data is null)
+                return NotFound(response);
+
+            return Ok(response);    
+        }
+
+
+
+
     }
 }
