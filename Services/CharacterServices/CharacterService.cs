@@ -29,10 +29,11 @@ namespace web_api.Services.CharacterServices
         public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
         { 
             var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
+            var dbContext = await _context.Characters.ToListAsync();
             var character = _mapper.Map<Character>(newCharacter);
             character.Id = charactersList.Max(c => c.Id) + 1;
-            charactersList.Add(character);
-            serviceResponse.data = charactersList.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
+            dbContext.Add(character);
+            serviceResponse.data = dbContext.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
             return serviceResponse;
         }
 
@@ -47,7 +48,8 @@ namespace web_api.Services.CharacterServices
         public async Task<ServiceResponse<GetCharacterDto>> GetCharacterById(int id)
         {   
             var serviceResponse = new ServiceResponse<GetCharacterDto>();
-            var character = charactersList.FirstOrDefault(c => c.Id == id);
+            var dbContext = await _context.Characters.ToListAsync();
+            var character = dbContext.FirstOrDefault(c => c.Id == id);
             serviceResponse.data = _mapper.Map<GetCharacterDto>(character);
             return serviceResponse;
             
