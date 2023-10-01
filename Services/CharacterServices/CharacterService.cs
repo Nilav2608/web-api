@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using web_api.Data;
 using web_api.Data_Transfer_Objects_DTO;
 using web_api.models;  // Assuming Character is defined in this namespace
 
@@ -11,8 +13,10 @@ namespace web_api.Services.CharacterServices
     public class CharacterServices : ICharacterService
     {
         private readonly IMapper _mapper;
-        public CharacterServices(IMapper mapper)
+        private readonly DataContext _context;
+        public CharacterServices(IMapper mapper,DataContext context)
         {
+            _context = context;
             _mapper = mapper; 
         }
         private static List<Character> charactersList = new List<Character>
@@ -35,7 +39,8 @@ namespace web_api.Services.CharacterServices
         public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
         {   
              var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
-             serviceResponse.data = charactersList.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
+             var dbContext = await _context.Characters.ToListAsync();
+             serviceResponse.data = dbContext.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
              return serviceResponse;
         }
 
