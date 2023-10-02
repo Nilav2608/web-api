@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -27,13 +28,30 @@ namespace web_api.Services.CharacterServices
         };
 
         public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
-        { 
+        {   
             var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
-            var dbContext = await _context.Characters.ToListAsync();
+            try
+            {
             var character = _mapper.Map<Character>(newCharacter);
-            character.Id = charactersList.Max(c => c.Id) + 1;
-            dbContext.Add(character);
-            serviceResponse.data = dbContext.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
+
+            // character.Id =  charactersList.Max(c => c.Id) + 1;
+
+            _context.Characters.Add(character);
+             await _context.SaveChangesAsync();
+
+    
+
+            var dbContext = await _context.Characters.ToListAsync();
+            
+
+            
+            serviceResponse.data = dbContext.Select(C => _mapper.Map<GetCharacterDto>(C)).ToList();
+            }   
+            catch (Exception ex)
+            {
+                serviceResponse.success =false;
+                serviceResponse.message= ex.Message;
+            }
             return serviceResponse;
         }
 

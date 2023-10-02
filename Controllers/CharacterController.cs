@@ -44,6 +44,7 @@ namespace web_api.Controllers
         [HttpPost("post")]
         public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> PostCharater(AddCharacterDto newCharacter){
            
+           
            return Ok(await _characterService.AddCharacter(newCharacter));
         }
 
