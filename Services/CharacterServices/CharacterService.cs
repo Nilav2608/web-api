@@ -79,8 +79,8 @@ namespace web_api.Services.CharacterServices
 
           try
           {  
-           
-              var character = charactersList.FirstOrDefault(c => c.Id == updatedCharacter.Id);
+              var dbContext = await _context.Characters.ToListAsync();
+              var character = dbContext.FirstOrDefault(c => c.Id == updatedCharacter.Id);
 
               if (character is null)
                  throw new Exception("character with Id "+updatedCharacter.Id+ " is not found");
@@ -92,6 +92,8 @@ namespace web_api.Services.CharacterServices
             character.Defence = updatedCharacter.Defence;
             character.Intellignece = updatedCharacter.Intellignece;
             character.Class = updatedCharacter.Class;
+
+            await _context.SaveChangesAsync();
 
             serviceResponse.data = _mapper.Map<GetCharacterDto>(character);
 
@@ -113,14 +115,19 @@ namespace web_api.Services.CharacterServices
             var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
 
             try
-            {
-                var character = charactersList.First(c => c.Id == id);
+            {   
+                var dbContext = await _context.Characters.ToListAsync();
+                var character = dbContext.FirstOrDefault(c => c.Id == id);
 
                 if(character is null)
+                   
                    throw new Exception("character with Id "+id+ " is not found");
                 
-                charactersList.Remove(character);
-                serviceResponse.data = charactersList.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
+                _context.Characters.Remove(character);
+                await _context.SaveChangesAsync();
+                serviceResponse.data =  _context.Characters.Select(c => _mapper.Map<GetCharacterDto>(character)).ToList();
+                serviceResponse.message = "data deleted successfully";
+                // serviceResponse.data = dbContext.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
             }
             catch (Exception ex)
             {
