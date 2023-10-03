@@ -116,18 +116,27 @@ namespace web_api.Services.CharacterServices
 
             try
             {   
-                var dbContext = await _context.Characters.ToListAsync();
-                var character = dbContext.FirstOrDefault(c => c.Id == id);
+                // var dbContext = await _context.Characters.ToListAsync();
+                // var character = dbContext.FirstOrDefault(c => c.Id == id);
+
+                // if(character is null)
+                   
+                //    throw new Exception("character with Id "+id+ " is not found");
+                
+                // _context.Characters.Remove(character);
+                // await _context.SaveChangesAsync();
+                // serviceResponse.data =  _context.Characters.Select(c => _mapper.Map<GetCharacterDto>(character)).ToList();
+                // serviceResponse.message = "data deleted successfully";
+                // serviceResponse.data = dbContext.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
+                 var character = await _context.Characters.FindAsync(id);
 
                 if(character is null)
                    
-                   throw new Exception("character with Id "+id+ " is not found");
-                
+                   throw new Exception("character with Id "+id+ " is not found"); 
+
                 _context.Characters.Remove(character);
-                await _context.SaveChangesAsync();
-                serviceResponse.data =  _context.Characters.Select(c => _mapper.Map<GetCharacterDto>(character)).ToList();
-                serviceResponse.message = "data deleted successfully";
-                // serviceResponse.data = dbContext.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
+                await _context.SaveChangesAsync();   
+                serviceResponse.data = await _context.Characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToListAsync();
             }
             catch (Exception ex)
             {
