@@ -59,6 +59,7 @@ namespace web_api.Controllers
 
              return Ok(response);
         }
+////Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;
 
           [HttpDelete("{id}")]//So here we haven't specified any routes so that it returns
         public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> DeleteCharacter(int id){
