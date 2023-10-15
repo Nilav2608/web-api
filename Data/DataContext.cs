@@ -13,5 +13,7 @@ namespace web_api.Data
 
         // to query and set characters
         public DbSet<Character> Characters => Set<Character>();
+
+        public DbSet<User> Users => Set<User>();
     }
 }

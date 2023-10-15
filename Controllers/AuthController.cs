@@ -15,8 +15,8 @@ namespace web_api.Controllers{
     class AuthController : ControllerBase{
 
 
-         private readonly IAuthRepositiry _authRepositiry;
-        public AuthController(IAuthRepositiry authRepositiry)
+         private readonly IAuthRepository _authRepositiry;
+        public AuthController(IAuthRepository authRepositiry)
         {
             _authRepositiry = authRepositiry;
         }
